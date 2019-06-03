@@ -1,0 +1,84 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Zadatak1_6Vezba
+{
+    public enum StatusProizvoda
+    {
+        UProdaji,
+        USkladistu,
+        Narucen
+    }
+
+    class Proizvod
+    {
+        private String naziv;
+        private int brojPaketa;
+        private int brojProizvoda;
+        private bool hitno;
+        private StatusProizvoda status_proizvoda;
+        private int rezultat;
+
+        public bool Hitno
+        {
+            get { return hitno; }
+            set { hitno = value; }
+        }
+
+        public String Naziv
+        {
+            get { return naziv; }
+            set { naziv = value; }
+        }
+
+        public int BrojPaketa
+        {
+            get { return brojPaketa; }
+            set { brojPaketa = value; }
+        }
+
+        public int BrojProizvoda
+        {
+            get { return brojProizvoda; }
+            set { brojProizvoda = value; }
+        }
+
+        public StatusProizvoda Status_Proizvoda
+        {
+            get { return status_proizvoda; }
+            set { status_proizvoda = value; }
+        }
+
+        public int Rezultat
+        {
+            get { return rezultat; }
+            set { rezultat = value; }
+        }
+
+        public static void Snimi(string Path, List<Proizvod> lista)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(new FileStream(Path, FileMode.Create)))
+                {
+                    for (int i = 0; i < lista.Count; i++)
+                    {
+                        String gg = " ";
+                        if (lista[i].Hitno)
+                            gg = "Hitno!";
+
+                        sw.WriteLine(lista[i].Naziv + " " + lista[i].BrojProizvoda + " " + lista[i].BrojPaketa + " " + Convert.ToString(lista[i].Status_Proizvoda) + " " + gg);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+}
