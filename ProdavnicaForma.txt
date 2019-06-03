@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Zadatak1_6Vezba
+{
+    public partial class Form1 : Form
+    {
+        List<Proizvod> lista = new List<Proizvod>();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox2.Enabled = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Proizvod pr = new Proizvod();
+            String n;
+            int p, b, rezultat;
+            StatusProizvoda sp = StatusProizvoda.Narucen;
+            bool c = false;
+
+            n = textBox4.Text;
+            p = Convert.ToInt32(textBox5.Text);
+            b = Convert.ToInt32(textBox6.Text);
+            rezultat = p * b;
+
+            if (radioButton4.Checked)
+                sp = StatusProizvoda.Narucen;
+            else if (radioButton5.Checked)
+                sp = StatusProizvoda.USkladistu;
+            else if (radioButton6.Checked)
+                sp = StatusProizvoda.UProdaji;
+
+            if (radioButton4.Checked)
+                c = true;
+
+            pr.Hitno = c;
+            pr.Naziv = n;
+            pr.BrojPaketa = b;
+            pr.BrojProizvoda = p;
+            pr.Status_Proizvoda = sp;
+            pr.Rezultat = rezultat;
+            lista.Add(pr);
+            String cc = " ";
+
+            if (c)
+                cc = "Hitno";
+            if (Convert.ToString(sp).Equals("Narucen"))
+                listBox2.Items.Add(pr.Naziv + " " + pr.BrojPaketa + " " + pr.BrojProizvoda + " " + Convert.ToString(pr.Status_Proizvoda) + " " + cc);
+            else
+                listBox2.Items.Add(pr.Naziv + " " + pr.BrojPaketa + " " + pr.BrojProizvoda + " " + Convert.ToString(pr.Status_Proizvoda) + "Ukupno: " + pr.Rezultat);
+
+            resetuj();
+            checkBox2.Enabled = true;
+            checkBox2.Checked = false;
+
+        }
+
+        public void resetuj()
+        {
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
+            radioButton4.Checked = false;
+            radioButton5.Checked = false;
+            radioButton6.Checked = false;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox2.Enabled = true;
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox2.Enabled = false;
+        }
+
+        private void snimiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Proizvod.Snimi(saveFileDialog1.FileName, lista);
+            }
+        }
+    }
+}
