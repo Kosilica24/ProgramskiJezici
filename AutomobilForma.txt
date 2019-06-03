@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace _16072
+{    
+    public partial class Form1 : Form
+    {
+        List<Automobil> lista = new List<Automobil>();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Automobil a = new Automobil();
+            bool b=false;
+            String p, m;
+            double z;
+            DateTime d;
+            Gorivo g = Gorivo.Gas;
+            p = textBox1.Text;
+            m = textBox2.Text;
+            z = Convert.ToDouble(numericUpDown1.Value);
+            d = dateTimePicker1.Value;
+            if (radioButton1.Checked)
+                g = Gorivo.Benzin;
+            else if (radioButton2.Checked)
+                g = Gorivo.Dizel;
+            else if (radioButton3.Checked)
+                g = Gorivo.Gas;
+            if(checkBox1.Checked)
+                b=true;
+            a.Atest = b;
+            a.Datum = d;
+            a.Model = m;
+            a.Proizvodjac = p;
+            a.Zapremina = z;
+            a.Vrsta_gorica = g;
+            lista.Add(a);
+            String bb=" ";
+           
+            if(b)
+                bb="Ima atest";
+            if(Convert.ToString(g).Equals("Gas"))
+                listBox1.Items.Add(a.Proizvodjac+" "+a.Model+" "+a.Zapremina+" "+a.Datum+" "+Convert.ToString(a.Vrsta_gorica)+" "+bb);
+            else
+                listBox1.Items.Add(a.Proizvodjac + " " + a.Model + " " + a.Zapremina + " " + a.Datum + " " + Convert.ToString(a.Vrsta_gorica));
+            resetuj();
+            checkBox1.Enabled = true;
+            checkBox1.Checked = false; 
+        }
+
+        private void resetuj()
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+            radioButton3.Checked = false;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox1.Enabled = false; 
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox1.Enabled = false;
+        }      
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox1.Enabled = true;
+        }
+
+        private void snimiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(saveFileDialog1.ShowDialog()==DialogResult.OK)
+            {
+                Automobil.snimi(saveFileDialog1.FileName,lista);
+            }
+        }
+    }
+}
