@@ -1,0 +1,134 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace FudbalskaUtakmica
+{
+    public partial class Form1 : Form
+    {
+        List<Dogadjaj> lista = new List<Dogadjaj>();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Dogadjaj d = new Dogadjaj();
+            Ekipa ek = new Ekipa();
+            String i;
+            int z;
+            Dogadjaji d1 = Dogadjaji.Gol;
+            i = textBox3.Text;
+            z = Convert.ToInt32(numericUpDown1.Value);
+
+            if (radioButton1.Checked)
+            {
+                d1 = Dogadjaji.Gol;
+                ek.BrGolova = 1;
+                label8.Text = Convert.ToString(Convert.ToInt32(label8.Text) + ek.BrGolova);
+            }
+
+            else if (radioButton2.Checked)
+                d1 = Dogadjaji.ZutiKarton;
+            else if (radioButton3.Checked)
+                d1 = Dogadjaji.CrveniKarton;
+
+            d.Igrac = i;
+            d.Minut = z;
+            d.Dogadj = d1;
+
+
+            if (d.Minut < 10)
+            {
+                d.m = "0" + Convert.ToString(d.Minut);
+            }
+            else
+                d.m = Convert.ToString(d.Minut);
+
+            lista.Add(d);
+            listBox1.Items.Add(d.m + "'" + " " + d.Igrac + " - " + Convert.ToString(d.Dogadj));
+            listBox1.Sorted = true;
+            resetuj();
+        }
+
+        private void resetuj()
+        {
+            textBox3.Text = "";
+            numericUpDown1.Value = 0;
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+            radioButton3.Checked = false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Dogadjaj d = new Dogadjaj();
+            String i;
+            int z;
+            Ekipa ek = new Ekipa();
+            Dogadjaji d1 = Dogadjaji.Gol;
+            i = textBox3.Text;
+            z = Convert.ToInt32(numericUpDown1.Value);
+
+            if (radioButton1.Checked)
+            {
+                d1 = Dogadjaji.Gol;
+                ek.BrGolova = 1;
+                label9.Text = Convert.ToString(Convert.ToInt32(label9.Text) + ek.BrGolova);
+            }
+            else if (radioButton2.Checked)
+                d1 = Dogadjaji.ZutiKarton;
+            else if (radioButton3.Checked)
+                d1 = Dogadjaji.CrveniKarton;
+
+            d.Igrac = i;
+            d.Minut = z;
+            d.Dogadj = d1;
+
+            if (d.Minut < 10)
+            {
+                d.m = "0" + Convert.ToString(d.Minut);
+            }
+            else
+                d.m = Convert.ToString(d.Minut);
+
+            lista.Add(d);
+
+            listBox2.Items.Add(d.m + "'" + " " + d.Igrac + " - " + Convert.ToString(d.Dogadj));
+            listBox1.Sorted = true;
+            resetuj();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            resetuj1();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            resetuj2();
+        }
+
+        private void resetuj1()
+        {
+            textBox1.Text = "";
+            listBox1.Items.Clear();
+            label8.Text = "0";
+        }
+
+        private void resetuj2()
+        {
+            textBox2.Text = "";
+            listBox2.Items.Clear();
+            label9.Text = "0";
+        }
+    }
+}
